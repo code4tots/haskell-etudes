@@ -58,5 +58,28 @@ sieve n = runSTUArray $ do
 primesTo :: Int -> [Int]
 primesTo n = [p | p <- [2..n], s ! p] where s = sieve n
 
+
 main :: IO ()
 main = print $ last $ primesTo 2000000
+
+
+
+-- simple Trial division --
+
+primes :: [Integer]
+primes = 2 : filter (isPrime primes) [3,5..]
+  where isPrime (p:ps) n = p*p > n || n `rem` p /= 0 && isPrime ps n
+
+--main :: IO ()
+--main = print $ last $ takeWhile (< 2000000) primes
+
+{--
+A test of the trial division version
+
+Kyumins-iMac:haskell-etudes math4tots$ ghc -O2 sieve-of-eratosthenes.hs && time ./sieve-of-eratosthenes
+1999993
+
+real    0m0.905s
+user    0m0.896s
+sys 0m0.008s
+--}
